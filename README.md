@@ -25,6 +25,7 @@
 - [Usage](#usage)
 - [List Of Components](#list)
 - [Built Using](#built_using)
+- [DemoVideo](#DemoVideo)
 - [Authors](#authors)
 
 ## 🧐 About <a name = "about"></a>
@@ -144,6 +145,10 @@ Following components are used to make this project
 - [Eclipse Paho MQTT](https://www.eclipse.org/paho/index.php?page=clients/python/index.php) - MQTT Client for Backend and RPiClient Software
 - [Arduino](https://www.arduino.cc/) - Embedded Framework and IDE - For Sensor Node Design
 - [VueJS](https://vuejs.org/) - For Dashboard Design
+
+## 📹 Demo Video <a name = "DemoVideo"></a>
+
+[SmartSensorMonitor Demo Video](https://youtu.be/76b-atR6duE) - Demo Video
 
 ## ✍️ Authors <a name = "authors"></a>
 
