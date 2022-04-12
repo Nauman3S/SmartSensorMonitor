@@ -117,7 +117,7 @@ Components pin connection details
 ## Usage <a name = "usage"></a>
 
 1.  Upload the code to your ESP32.
-2.  Connect the ESP32 with your Tanning Machine.
+2.  Connect the ESP32 with your Arduino as shown in the Circuit Diagram section above.
 3. Power on your ESP32, it will present you with an AP named `SensorM-abc` (while `SensorM` can be changed in the portal and `abc` is a unique id for each esp32) 
    1. Default captive portal password `12345678` which can be changed in captive portal. 
 4. Connect to the ESP32 access point and open the web-browser and navigate to the link `http://esp32.local/_ac`. This link will work on most of the operating systems but if your operating system is not allowing to open it, you may want to check the captive portal IP Address from the serial monitor and can use that IP address inplace of the above mentioned URL. 

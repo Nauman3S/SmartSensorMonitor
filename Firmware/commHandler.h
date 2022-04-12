@@ -27,11 +27,11 @@ String readDataPackt()
 
 void loopCommunicationHandler()
 {
-    if (Serial.available())
+    if (Serial2.available())
     {
-        incmommingData = Serial.readString();
+        incmommingData = Serial2.readString();
 
         dataAvailable = 1;
+        getSensorData(readDataPackt());
     }
-    getSensorData(readDataPackt());
 }

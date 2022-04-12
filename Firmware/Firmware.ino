@@ -60,8 +60,18 @@ String loadParams(AutoConnectAux &aux, PageArgument &args) // function to load s
     String v2 = "";
     if (param)
     {
-        Serial.println("load params func");
         aux.loadElement(param);
+        Serial.println(param);
+        AutoConnectText &calibElm = aux["Calibration"].as<AutoConnectText>();
+        AutoConnectText &counterElm = aux["Counter"].as<AutoConnectText>();
+        AutoConnectText &tank1Elm = aux["Tank1"].as<AutoConnectText>();
+        AutoConnectText &tank2Elm = aux["Tank2"].as<AutoConnectText>();
+        Serial.println("load params func");
+        // aux.loadElement(param);
+        calibElm.value = getCalibration();
+        counterElm.value = getCounter();
+        tank1Elm.value = getTank1();
+        tank2Elm.value = getTank2();
 
         // curSValueElm.value="CurS:7788";
         param.close();
@@ -280,7 +290,7 @@ void setup() // main setup functions
     mqttConnect(); // start mqtt
 
     Serial.println("Checking if device exisits.");
-    mqttPublish("smartm-device/deviceExists", ss.getMacAddress());
+    mqttPublish("sensorm-device/deviceExists", ss.getMacAddress());
 }
 
 void loop()
@@ -293,7 +303,7 @@ void loop()
     {
 
         ledState(ACTIVE_MODE);
-        Serial.println("Sending data");
+        // Serial.println("Sending data");
 
         lastPub = millis();
     }

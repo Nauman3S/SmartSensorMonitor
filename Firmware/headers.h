@@ -3,7 +3,7 @@ String channelId;
 String userKey;
 String apiKey;
 String apid;
-String hostName = "SmartM";
+String hostName = "SensorM";
 String apPass="12345678";
 String settingsPass;
 int deviceExisits = 0;

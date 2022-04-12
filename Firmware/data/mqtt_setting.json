@@ -58,10 +58,22 @@
       "style": "text-align:center;color:#2f4f4f;"
     },
     {
+      "name": "header5",
+      "type": "ACText",
+      "value": "<h4>Counter </h4>",
+      "style": "text-align:center;color:#2f4f4f;"
+    },
+    {
       "name": "Counter",
       "type": "ACText",
       "value": "0",
       "style": "font-family:serif;color:#4ba2ea;"
+    },
+    {
+      "name": "header6",
+      "type": "ACText",
+      "value": "<h4>Calibration </h4>",
+      "style": "text-align:center;color:#2f4f4f;"
     },
     {
       "name": "Calibration",
@@ -70,16 +82,40 @@
       "style": "font-family:serif;color:#4ba2ea;"
     },
     {
+      "name": "header7",
+      "type": "ACText",
+      "value": "<h4>Tank 1 </h4>",
+      "style": "text-align:center;color:#2f4f4f;"
+    },
+    {
       "name": "Tank1",
       "type": "ACText",
       "value": "0",
       "style": "font-family:serif;color:#4ba2ea;"
     },
     {
+      "name": "header8",
+      "type": "ACText",
+      "value": "<h4>Tank 2 </h4>",
+      "style": "text-align:center;color:#2f4f4f;"
+    },
+    {
       "name": "Tank2",
       "type": "ACText",
       "value": "0",
       "style": "font-family:serif;color:#4ba2ea;"
+    },
+    {
+      "name": "refresh2",
+      "type": "ACButton",
+      "value": "Refresh",
+      "action": "refreshP()",
+      "posterior": "none"
+    },
+    {
+      "name": "js",
+      "type": "ACElement",
+      "value": "<script type='text/javascript'>function refreshP() {document.location.reload(true);}</script>"
     },
     {
       "name": "newline",
@@ -90,7 +126,7 @@
       "name": "hostname",
       "type": "ACInput",
       "label": "ESP hostname(Device & AP Name)",
-      "value": "TanningD"
+      "value": "SensorM"
     },
     {
       "name": "apPass",
