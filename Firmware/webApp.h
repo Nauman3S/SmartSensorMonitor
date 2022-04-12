@@ -43,13 +43,30 @@ void handleRoot()
         "</head>"
         "<body>"
         "<div class=\"menu\">" AUTOCONNECT_LINK(BAR_24) "</div>"
-                                                        "Smart Tanning Device<br>");
+                                                        "Smart Sensor Monitor Device<br>");
 
-    page += String(F("<h1>Smart Tanning Device Data</h1>"));
+    page += String(F("<h1>Smart Sensor Monitor Device</h1>"));
 
     page += String(F("<h2>MAC Address: "));
     page += ss.getMacAddress();
     page += String(F("</h2>"));
+
+    page += String(F("<h4>Counter: "));
+    page += getCounter();
+    page += String(F("</h4>"));
+
+    page += String(F("<h4>Calibration: "));
+    page += getCalibration();
+    page += String(F("</h4>"));
+
+    page += String(F("<h4>Tank 1: "));
+    page += getTank1();
+    page += String(F("</h4>"));
+
+    page += String(F("<h4>Tank 2: "));
+    page += getTank2();
+    page += String(F("</h4>"));
+
     page += String(F("<p><br><a class=\"button\" href=\"/\">Refresh</a></p>"));
     page += String(F("</body></html>"));
 
@@ -60,7 +77,7 @@ void redirectToHome()
 {
     server.sendHeader("Location", "/", true);
     server.send(302, "text/plain", "");
-    //server.client().stop();
+    // server.client().stop();
 }
 void dataTable()
 {

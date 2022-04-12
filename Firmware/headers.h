@@ -3,8 +3,8 @@ String channelId;
 String userKey;
 String apiKey;
 String apid;
-String hostName = "TanningD";
-String apPass="123456789AP";
+String hostName = "SmartM";
+String apPass="12345678";
 String settingsPass;
 int deviceExisits = 0;
 

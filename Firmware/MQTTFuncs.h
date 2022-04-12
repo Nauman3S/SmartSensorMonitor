@@ -37,7 +37,7 @@ void callback(char *topic, byte *payload, unsigned int length)
     {
     //    Serial.println("Got Poll Request.");
     //    Serial2.println("Got Poll Request.");
-       sendData_UVCommander("POLL");
+    //    sendData_UVCommander("POLL");
     }
     else if (String(topic) == ss.getMacAddress()+("/fieldData"))
     {
@@ -67,7 +67,7 @@ void reconnect()
     {
         Serial.print("Attempting MQTT connection...");
         // Create a random client ID
-        String clientId = "ESP8266Client-";
+        String clientId = "ESP32Client-";
         clientId += String(random(0xffff), HEX);
         // Attempt to connect
         if (mqttClient.connect(clientId.c_str(), mqtt_user, mqtt_pass))
@@ -100,10 +100,10 @@ bool mqttConnect()
         if (String(mqtt_server).length() <= 0)
             break;
 
-        mqttClient.setServer(mqttBroker, 1883);
+        mqttClient.setServer(mqtt_server, 1883);
         mqttClient.setCallback(callback);
         mqttClient.setBufferSize(2024);
-        Serial.println(String("Attempting MQTT broker:") + String("Tanning Broker"));
+        Serial.println(String("Attempting MQTT broker:") + String("HiveMQ Broker"));
         internetStatus = "Connecting...";
 
         for (uint8_t i = 0; i < 8; i++)

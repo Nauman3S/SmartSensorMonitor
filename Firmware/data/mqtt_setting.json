@@ -58,25 +58,25 @@
       "style": "text-align:center;color:#2f4f4f;"
     },
     {
-      "name": "totalRunningTime",
+      "name": "Counter",
       "type": "ACText",
       "value": "0",
       "style": "font-family:serif;color:#4ba2ea;"
     },
     {
-      "name": "totalSessionCount",
+      "name": "Calibration",
       "type": "ACText",
       "value": "0",
       "style": "font-family:serif;color:#4ba2ea;"
     },
     {
-      "name": "totalSessionEndedCorrectly",
+      "name": "Tank1",
       "type": "ACText",
       "value": "0",
       "style": "font-family:serif;color:#4ba2ea;"
     },
     {
-      "name": "totalSessionEndedBeforeTime",
+      "name": "Tank2",
       "type": "ACText",
       "value": "0",
       "style": "font-family:serif;color:#4ba2ea;"

@@ -1,6 +1,6 @@
 #include "headers.h"   //all misc. headers and functions
 #include "MQTTFuncs.h" //MQTT related functions
-#include "jsonHandler.h"
+#include "sensorValuesHandler.h"
 #include "commHandler.h"
 #include "webApp.h" //Captive Portal webpages
 #include <FS.h>     //ESP32 File System
@@ -9,7 +9,7 @@ IPAddress ipV(192, 168, 4, 1);
 TaskHandle_t CommHandler;
 void readData()
 {
-    //Serial.printf("Reading file: %s\r\n", path);
+    // Serial.printf("Reading file: %s\r\n", path);
 
     File file = FlashFS.open("/data.txt");
     if (!file || file.isDirectory())
@@ -18,23 +18,23 @@ void readData()
         return;
     }
 
-    Serial.println("- read from file:");
-    if (file.available())
-    {
-        String d = file.readString();
+    // Serial.println("- read from file:");
+    // if (file.available())
+    // {
+    //     String d = file.readString();
 
-        TotalRunningTime = ss.StringSeparator(d, ',', 0);
-        TotalSessionCount = ss.StringSeparator(d, ',', 1);
-        TotalSessionCorrectlyEnded = ss.StringSeparator(d, ',', 2);
-        TotalSessionEndedBeforeTime = ss.StringSeparator(d, ',', 3);
+    //     Counter = ss.StringSeparator(d, ':', 1);
+    //     Calibration = ss.StringSeparator(d, '=', 1);
+    //     Tank1 = ss.StringSeparator(d, ':', 1);
+    //     Tank2 = ss.StringSeparator(d, ',', 1);
 
-        Serial.println(file.readString());
-    }
+    //     Serial.println(file.readString());
+    // }
     file.close();
 }
 void writeData(const char *message)
 {
-    //Serial.printf("Writing file: %s\r\n", path);
+    // Serial.printf("Writing file: %s\r\n", path);
 
     File file = FlashFS.open("/data.txt", "w");
     if (!file)
@@ -52,7 +52,7 @@ void writeData(const char *message)
     }
     file.close();
 }
-String loadParams(AutoConnectAux &aux, PageArgument &args) //function to load saved settings
+String loadParams(AutoConnectAux &aux, PageArgument &args) // function to load saved settings
 {
     (void)(args);
     File param = FlashFS.open(PARAM_FILE, "r");
@@ -71,24 +71,24 @@ String loadParams(AutoConnectAux &aux, PageArgument &args) //function to load sa
     return String("");
 }
 
-String saveParams(AutoConnectAux &aux, PageArgument &args) //save the settings
+String saveParams(AutoConnectAux &aux, PageArgument &args) // save the settings
 {
-    serverName = args.arg("mqttserver"); //broker
+    serverName = args.arg("mqttserver"); // broker
     serverName.trim();
 
     channelId = args.arg("channelid");
     channelId.trim();
 
-    userKey = args.arg("userkey"); //user name
+    userKey = args.arg("userkey"); // user name
     userKey.trim();
 
-    apiKey = args.arg("apikey"); //password
+    apiKey = args.arg("apikey"); // password
     apiKey.trim();
 
-    apPass = args.arg("apPass"); //ap pass
+    apPass = args.arg("apPass"); // ap pass
     apPass.trim();
 
-    settingsPass = args.arg("settingsPass"); //ap pass
+    settingsPass = args.arg("settingsPass"); // ap pass
     settingsPass.trim();
 
     hostName = args.arg("hostname");
@@ -113,7 +113,7 @@ String saveParams(AutoConnectAux &aux, PageArgument &args) //save the settings
 
     return String("");
 }
-bool loadAux(const String auxName) //load defaults from data/*.json
+bool loadAux(const String auxName) // load defaults from data/*.json
 {
     bool rc = false;
     Serial.println("load aux func");
@@ -131,55 +131,28 @@ bool loadAux(const String auxName) //load defaults from data/*.json
 uint8_t inAP = 0;
 bool whileCP()
 {
-
+    loopCommunicationHandler();
     if (inAP == 0)
     {
         ledState(AP_MODE);
         inAP = 1;
     }
     // Serial.println("AP MODE");
-    // UVCommanderPollHandler();
+
     loopLEDHandler();
 }
-void loopFunction(void *pvParameters)
-{
-    // mqttClient.setKeepAlive(90);
-    setupCommsHandler();
-    sendData_UVCommander("ALIVE OK");
-    sendMACAddress();
-    for (;;)
-    {
-        UVCommanderPollHandler();
-        vTaskDelay(1 / portTICK_PERIOD_MS);
-    }
-}
-void setup() //main setup functions
+
+void setup() // main setup functions
 {
     Serial.begin(115200);
-
+    setupCommsHandler();
     delay(1000);
     Serial.println(ss.getMacAddress());
     macAddress = ss.getMacAddress();
 
-    // queue = xQueueCreate(1, sizeof(tweetData));
-    // if (queue == NULL)
-    // {
-    //     Serial.println("Error creating the queue");
-    // }
-
-    // xQueueSend(queue, &tweetData, portMAX_DELAY);
-
-    xTaskCreatePinnedToCore(
-        loopFunction, /* Task function. */
-        "Twitter",    /* name of task. */
-        10000,        /* Stack size of task */
-        NULL,         /* parameter of the task */
-        1,            /* priority of the task */
-        &CommHandler, /* Task handle to keep track of created task */
-        1);
     delay(500);
 
-    if (!MDNS.begin("esp32")) //starting mdns so that user can access webpage using url `esp32.local`(will not work on all devices)
+    if (!MDNS.begin("esp32")) // starting mdns so that user can access webpage using url `esp32.local`(will not work on all devices)
     {
         Serial.println("Error setting up MDNS responder!");
         while (1)
@@ -195,7 +168,7 @@ void setup() //main setup functions
     loadAux(AUX_MQTTSETTING);
     loadAux(AUX_MQTTSAVE);
     AutoConnectAux *setting = portal.aux(AUX_MQTTSETTING);
-    if (setting) //get all the settings parameters from setting page on esp32 boot
+    if (setting) // get all the settings parameters from setting page on esp32 boot
     {
         Serial.println("Setting loaded");
         PageArgument args;
@@ -209,12 +182,12 @@ void setup() //main setup functions
         AutoConnectInput &apikeyElm = mqtt_setting["apikey"].as<AutoConnectInput>();
         AutoConnectInput &settingsPassElm = mqtt_setting["settingsPass"].as<AutoConnectInput>();
 
-        AutoConnectText &trtValueElm = mqtt_setting["totalRunningTime"].as<AutoConnectText>();
-        AutoConnectText &tscValueElm = mqtt_setting["totalSessionCount"].as<AutoConnectText>();
-        AutoConnectText &tsecValueElm = mqtt_setting["totalSessionEndedCorrectly"].as<AutoConnectText>();
-        AutoConnectText &tsebtValueElm = mqtt_setting["totalSessionEndedBeforeTime"].as<AutoConnectText>();
+        AutoConnectText &trtValueElm = mqtt_setting["Counter"].as<AutoConnectText>();
+        AutoConnectText &tscValueElm = mqtt_setting["Calibration"].as<AutoConnectText>();
+        AutoConnectText &tsecValueElm = mqtt_setting["Tank1"].as<AutoConnectText>();
+        AutoConnectText &tsebtValueElm = mqtt_setting["Tank2"].as<AutoConnectText>();
 
-        //vibSValueElm.value="VibS:11";
+        // vibSValueElm.value="VibS:11";
         serverName = String(serverNameElm.value);
         channelId = String(channelidElm.value);
         userKey = String(userkeyElm.value);
@@ -230,10 +203,10 @@ void setup() //main setup functions
 
         if (hostnameElm.value.length())
         {
-            //hostName=hostName+ String("-") + String(GET_CHIPID(), HEX);
+            // hostName=hostName+ String("-") + String(GET_CHIPID(), HEX);
             //;
-            //portal.config(hostName.c_str(), apPass.c_str());
-            // portal.config(hostName.c_str(), "123456789AP");
+            // portal.config(hostName.c_str(), apPass.c_str());
+            //  portal.config(hostName.c_str(), "123456789AP");
             config.apid = hostName + "-" + String(GET_CHIPID(), HEX);
             // config.password = apPass;
             // config.psk = apPass;
@@ -248,7 +221,7 @@ void setup() //main setup functions
             config.apid = hostName + "-" + String(GET_CHIPID(), HEX);
             // config.password = apPass;
             // config.psk = apPass;
-            //config.hostName = hostName;//hostnameElm.value+ "-" + String(GET_CHIPID(), HEX);
+            // config.hostName = hostName;//hostnameElm.value+ "-" + String(GET_CHIPID(), HEX);
             // portal.config(hostName.c_str(), "123456789AP");
             Serial.println("hostname set to " + hostName);
         }
@@ -262,7 +235,7 @@ void setup() //main setup functions
     {
         Serial.println("aux. load error");
     }
-    //config.homeUri = "/_ac";
+    // config.homeUri = "/_ac";
     config.apip = ipV;
     config.autoReconnect = true;
     config.reconnectInterval = 1;
@@ -270,10 +243,10 @@ void setup() //main setup functions
     Serial.println(hostName);
     Serial.print("Password: ");
     Serial.println(apPass);
-    config.title = "Smart Tanning Device"; //set title of webapp
+    config.title = "Smart Sensor Monitor Device"; // set title of webapp
     readData();
 
-    //add different tabs on homepage
+    // add different tabs on homepage
 
     //  portal.disableMenu(AC_MENUITEM_DISCONNECT);
     server.on("/", handleRoot);
@@ -304,19 +277,19 @@ void setup() //main setup functions
     }
 
     MDNS.addService("http", "tcp", 80);
-    mqttConnect(); //start mqtt
+    mqttConnect(); // start mqtt
 
     Serial.println("Checking if device exisits.");
-    mqttPublish("tanning-device/deviceExists", ss.getMacAddress());
+    mqttPublish("smartm-device/deviceExists", ss.getMacAddress());
 }
 
 void loop()
 {
     server.handleClient();
-
     portal.handleRequest();
+    loopCommunicationHandler();
 
-    if (millis() - lastPub > updateInterval) //publish data to mqtt server
+    if (millis() - lastPub > updateInterval) // publish data to mqtt server
     {
 
         ledState(ACTIVE_MODE);

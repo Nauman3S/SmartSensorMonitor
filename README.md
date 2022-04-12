@@ -72,7 +72,7 @@ You should have Arduino IDE Installed
 1.  Close and re-open the Arduino IDE.
 
 1.  Now copy the contents of the libs folder to the libraries directory of your Arduino
-    1. If you are using windows, the libraries directory will be Documents/Arduino/libraries
+    1. If you are using Windows, the libraries directory will be Documents/Arduino/libraries
 
 ##### ESP32 Node FW Uploading
 
@@ -97,6 +97,21 @@ Here's the complete circuit diagram of the system.
 
 ![CircuitDiagram](Circuit/Circuit_bb.png)
 
+### Components Pin Connection Details
+
+```http
+Components pin connection details
+```
+
+#### ESP32<->ARDUINO
+
+```Arduino Connected with ESP32```
+
+| Arduino | ESP32 |
+| :---------- | :---- |
+| `RX`   | `TX2` |
+| `TX`   | `RX2` |
+| `GND`   | `GND` |
 
 
 ## Usage <a name = "usage"></a>
@@ -111,7 +126,7 @@ Here's the complete circuit diagram of the system.
 ![SCR1](Circuit/scr1.png)
 
 7.  Once connected to a WiFi network, you can again access the captive portal using same URL or the IP Address from the Serial monitor.
-8.  The data is published to the MQTT Topic `SensorM/{hostname}` while the hostname is the one which you can define in Settings page of the captive portal.
+8.  The data is published to the MQTT Topic `smartm-device/{hostname}` while the hostname is the one which you can define in Settings page of the captive portal.
 9.  You can open settings page with following default credentials
     1.  User: **AP Name (SensorM)**
     2.  Password: **admin**
